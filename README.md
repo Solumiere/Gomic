@@ -1,0 +1,3 @@
+# Gomic
+
+Laravel comics store.
