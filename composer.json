@@ -1,0 +1,13 @@
+{
+  "name": "solumiere/gomic",
+  "type": "project",
+  "description": "Comics store (Laravel)",
+  "require": {
+    "php": "^8.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  }
+}
