@@ -32,11 +32,14 @@
 					<img class="card-img-top" src=" asset('storage/'.$comic->cover_image_path) " alt="cover">
 				@endif
 				<div class="card-body">
-					<h2 class="h6"><a href=" route('comics.show', $comic) "> $comic->title </a></h2>
+					<h2 class="h6"><a href=" route('comics.show', $comic->slug) "> $comic->title </a></h2>
+					@if($comic->author)
+						<div class="small text-muted">Автор:  $comic->author </div>
+					@endif
 					<div class="text-muted"> $comic->price  ₽</div>
 				</div>
 				<div class="card-footer bg-white border-0">
-					<form method="POST" action=" route('cart.add', $comic) ">
+					<form method="POST" action=" route('cart.add', $comic->id) ">
 						@csrf
 						<button class="btn btn-sm btn-outline-primary">В корзину</button>
 					</form>

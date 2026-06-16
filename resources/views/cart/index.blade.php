@@ -18,11 +18,11 @@
 			@foreach($items as $it)
 				<tr>
 					<td>
-						<a href=" route('comics.show', $it['comic']) "> $it['comic']->title </a>
+						<a href=" route('comics.show', $it['comic']->slug) "> $it['comic']->title </a>
 					</td>
 					<td class="text-end"> $it['comic']->price  ₽</td>
 					<td class="text-end">
-						<form method="POST" action=" route('cart.remove', $it['comic']) ">
+						<form method="POST" action=" route('cart.remove', $it['comic']->id) ">
 							@csrf
 							<button class="btn btn-sm btn-outline-danger">Удалить</button>
 						</form>
@@ -33,7 +33,7 @@
 		<tfoot>
 			<tr>
 				<th class="text-end" colspan="2">Итого:</th>
-				<th class="text-end"> number_format($total, 2, '.', '')  ₽</th>
+				<th class="text-end"> $total  ₽</th>
 			</tr>
 		</tfoot>
 	</table>
