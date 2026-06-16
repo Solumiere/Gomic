@@ -13,7 +13,7 @@
 		<h1 class="h3"> $comic->title </h1>
 		<div class="mb-2 text-muted">Средний рейтинг:  number_format($avgRating, 1) /5</div>
 		<div class="mb-3"> $comic->description </div>
-		<div class="h5 mb-3"> number_format($comic->price, 2, '.', ' ')  ₽</div>
+		<div class="h5 mb-3"> $comic->price  ₽</div>
 
 		<form method="POST" action=" route('cart.add', $comic) " class="d-inline">
 			@csrf
@@ -28,9 +28,13 @@
 <hr class="my-4">
 <h2 class="h5">Отзывы</h2>
 
+@if($reviews->isEmpty())
+	<p class="text-muted">Пока нет отзывов.</p>
+@endif
+
 @foreach($reviews as $review)
 	<div class="border rounded p-3 mb-2">
-		<div class="small text-muted"> $review->user->name  •  $review->created_at->format('d.m.Y H:i') </div>
+		<div class="small text-muted"> $review->user->name ?? 'Пользователь'  •  $review->created_at?->format('d.m.Y H:i') </div>
 		<div class="fw-semibold">Оценка:  $review->rating /5</div>
 		<div> $review->body </div>
 	</div>

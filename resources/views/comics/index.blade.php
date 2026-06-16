@@ -33,7 +33,7 @@
 				@endif
 				<div class="card-body">
 					<h2 class="h6"><a href=" route('comics.show', $comic) "> $comic->title </a></h2>
-					<div class="text-muted"> number_format($comic->price, 2, '.', ' ')  ₽</div>
+					<div class="text-muted"> $comic->price  ₽</div>
 				</div>
 				<div class="card-footer bg-white border-0">
 					<form method="POST" action=" route('cart.add', $comic) ">

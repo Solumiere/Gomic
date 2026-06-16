@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title> config('app.name', 'Gomic') </title>
+	<title> config('app.name','Gomic') </title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -17,7 +17,7 @@
 				@auth
 					<li class="nav-item"><a class="nav-link" href=" route('orders.index') ">Заказы</a></li>
 					@if(auth()->user()->is_admin)
-						<li class="nav-item"><a class="nav-link" href=" route('admin.comics.index') ">Админ</a></li>
+						<li class="nav-item"><a class="nav-link" href=" url('/admin') ">Админ</a></li>
 					@endif
 				@endauth
 			</ul>

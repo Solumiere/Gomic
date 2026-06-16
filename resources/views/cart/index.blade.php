@@ -20,7 +20,7 @@
 					<td>
 						<a href=" route('comics.show', $it['comic']) "> $it['comic']->title </a>
 					</td>
-					<td class="text-end"> number_format($it['comic']->price, 2, '.', ' ')  ₽</td>
+					<td class="text-end"> $it['comic']->price  ₽</td>
 					<td class="text-end">
 						<form method="POST" action=" route('cart.remove', $it['comic']) ">
 							@csrf
@@ -33,7 +33,7 @@
 		<tfoot>
 			<tr>
 				<th class="text-end" colspan="2">Итого:</th>
-				<th class="text-end"> number_format($total, 2, '.', ' ')  ₽</th>
+				<th class="text-end"> number_format($total, 2, '.', '')  ₽</th>
 			</tr>
 		</tfoot>
 	</table>
