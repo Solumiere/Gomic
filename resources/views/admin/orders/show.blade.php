@@ -12,7 +12,7 @@
 	<div class="col-md-4">
 		<select class="form-select" name="status">
 			@foreach(['created','paid','cancelled','completed'] as $st)
-				<option value=" $st "  $order->status===$st?'selected':'' > $st </option>
+				<option value=" $st " @selected($order->status===$st)> $st </option>
 			@endforeach
 		</select>
 	</div>

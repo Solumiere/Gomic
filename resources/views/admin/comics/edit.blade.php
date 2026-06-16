@@ -14,7 +14,7 @@
 		<div class="col-md-4 mb-2"><label class="form-label">Год</label><input class="form-control" name="published_year" value=" $comic->published_year "></div>
 	</div>
 	<div class="form-check mb-2">
-		<input class="form-check-input" type="checkbox" name="is_active" id="active"  $comic->is_active ? 'checked' : '' >
+		<input class="form-check-input" type="checkbox" name="is_active" id="active" @checked($comic->is_active)>
 		<label class="form-check-label" for="active">Активен</label>
 	</div>
 	<div class="mb-2"><label class="form-label">Новая обложка (необязательно)</label><input class="form-control" type="file" name="cover"></div>

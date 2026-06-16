@@ -34,7 +34,7 @@
 
 @foreach($reviews as $review)
 	<div class="border rounded p-3 mb-2">
-		<div class="small text-muted"> $review->user->name ?? 'Пользователь'  •  $review->created_at?->format('d.m.Y H:i') </div>
+		<div class="small text-muted"> $review->user->name  •  $review->created_at </div>
 		<div class="fw-semibold">Оценка:  $review->rating /5</div>
 		<div> $review->body </div>
 	</div>

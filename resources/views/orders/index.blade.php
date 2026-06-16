@@ -22,7 +22,7 @@
 					<td> $order->id </td>
 					<td> $order->status </td>
 					<td> $order->total  ₽</td>
-					<td> $order->created_at?->format('d.m.Y H:i') </td>
+					<td> $order->created_at </td>
 					<td><a class="btn btn-sm btn-outline-primary" href=" route('orders.show', $order) ">Открыть</a></td>
 				</tr>
 			@endforeach

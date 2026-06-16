@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title> config('app.name','Gomic') </title>
+	<title> config('app.name', 'Gomic') </title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -17,18 +17,18 @@
 				@auth
 					<li class="nav-item"><a class="nav-link" href=" route('orders.index') ">Заказы</a></li>
 					@if(auth()->user()->is_admin)
-						<li class="nav-item"><a class="nav-link" href=" url('/admin') ">Админ</a></li>
+						<li class="nav-item"><a class="nav-link" href=" route('admin.comics.index') ">Админ</a></li>
 					@endif
 				@endauth
 			</ul>
 			<ul class="navbar-nav ms-auto">
 				@guest
-					<li class="nav-item"><a class="nav-link" href="/login">Вход</a></li>
-					<li class="nav-item"><a class="nav-link" href="/register">Регистрация</a></li>
+					<li class="nav-item"><a class="nav-link" href=" route('login') ">Вход</a></li>
+					<li class="nav-item"><a class="nav-link" href=" route('register') ">Регистрация</a></li>
 				@else
 					<li class="nav-item"><span class="navbar-text me-2"> auth()->user()->name </span></li>
 					<li class="nav-item">
-						<form method="POST" action="/logout">
+						<form method="POST" action=" route('logout') ">
 							@csrf
 							<button class="btn btn-sm btn-outline-light" type="submit">Выйти</button>
 						</form>
@@ -46,6 +46,16 @@
 	@if(session('error'))
 		<div class="alert alert-danger"> session('error') </div>
 	@endif
+	@if($errors->any())
+		<div class="alert alert-danger">
+			<ul class="mb-0">
+				@foreach($errors->all() as $e)
+					<li> $e </li>
+				@endforeach
+			</ul>
+		</div>
+	@endif
+
 	@yield('content')
 </main>
 

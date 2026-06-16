@@ -7,7 +7,7 @@
 	<div><strong>Статус:</strong>  $order->status </div>
 	<div><strong>Сумма:</strong>  $order->total  ₽</div>
 	@if($order->paid_at)
-		<div><strong>Оплачен:</strong>  $order->paid_at->format('d.m.Y H:i') </div>
+		<div><strong>Оплачен:</strong>  $order->paid_at </div>
 	@endif
 </div>
 
