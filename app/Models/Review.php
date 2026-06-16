@@ -2,11 +2,24 @@
 
 namespace App\Models;
 
-class Review
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Review extends Model
 {
-    public int $id;
-    public int $user_id;
-    public int $comic_id;
-    public int $rating; // 1..5
-    public string $body;
+    protected $fillable = ['comic_id','user_id','rating','body','is_hidden'];
+
+    protected $casts = [
+        'is_hidden' => 'boolean',
+    ];
+
+    public function comic(): BelongsTo
+    {
+        return $this->belongsTo(Comic::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

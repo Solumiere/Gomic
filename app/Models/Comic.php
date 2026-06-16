@@ -2,12 +2,23 @@
 
 namespace App\Models;
 
-class Comic
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class Comic extends Model
 {
-    public int $id;
-    public string $title;
-    public string $description;
-    public float $price;
-    public ?string $cover_image_path = null;
-    public string $pdf_path;
+    protected $fillable = [
+        'title','slug','description','price','cover_image_path','pdf_path',
+        'pages_count','published_year','is_active',
+    ];
+
+    protected $casts = [
+        'price' => 'decimal:2',
+        'is_active' => 'boolean',
+    ];
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
 }
