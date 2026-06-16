@@ -9,6 +9,8 @@ USE `23018_kolirek`;
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
+DROP TABLE IF EXISTS comic_genre;
+DROP TABLE IF EXISTS genres;
 DROP TABLE IF EXISTS reviews;
 DROP TABLE IF EXISTS order_items;
 DROP TABLE IF EXISTS orders;
@@ -34,6 +36,7 @@ CREATE TABLE comics (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   title VARCHAR(200) NOT NULL,
   slug VARCHAR(220) NOT NULL,
+  author VARCHAR(160) NULL,
   description TEXT NULL,
   price DECIMAL(10,2) NOT NULL DEFAULT 0.00,
   cover_image_path VARCHAR(255) NULL,
@@ -46,7 +49,35 @@ CREATE TABLE comics (
   PRIMARY KEY (id),
   UNIQUE KEY uq_comics_slug (slug),
   KEY idx_comics_price (price),
-  KEY idx_comics_active (is_active)
+  KEY idx_comics_active (is_active),
+  KEY idx_comics_author (author)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE genres (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  name VARCHAR(80) NOT NULL,
+  slug VARCHAR(100) NOT NULL,
+  created_at DATETIME NULL,
+  updated_at DATETIME NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_genres_name (name),
+  UNIQUE KEY uq_genres_slug (slug)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE comic_genre (
+  comic_id BIGINT UNSIGNED NOT NULL,
+  genre_id BIGINT UNSIGNED NOT NULL,
+  created_at DATETIME NULL,
+  PRIMARY KEY (comic_id, genre_id),
+  KEY idx_comic_genre_genre (genre_id),
+  CONSTRAINT fk_comic_genre_comic
+    FOREIGN KEY (comic_id) REFERENCES comics(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT fk_comic_genre_genre
+    FOREIGN KEY (genre_id) REFERENCES genres(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE orders (
