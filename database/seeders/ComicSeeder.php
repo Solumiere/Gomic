@@ -25,7 +25,7 @@ class ComicSeeder extends Seeder
                     'slug' => $slug,
                     'description' => 'Описание будет добавлено администратором.',
                     'price' => $i['price'],
-                    'pdf_path' => 'private/comics/demo.pdf',
+                    'pdf_path' => 'comics/demo.pdf',
                     'pages_count' => $i['pages_count'],
                     'published_year' => $i['published_year'],
                     'is_active' => true,

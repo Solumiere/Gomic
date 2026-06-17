@@ -1,47 +1,55 @@
 @extends('layouts.app')
 
+@section('title', 'Корзина — Gomic')
+
 @section('content')
-<h1 class="h4 mb-3">Корзина</h1>
+<h1 class="gomic-title mb-3">Корзина</h1>
 
 @if(empty($items))
-	<p>Корзина пуста.</p>
+  <div class="gomic-empty text-center py-5">
+    <div class="display-6 mb-2">\uD83D\uDED2</div>
+    <p class="text-muted mb-3">Корзина пуста.</p>
+    <a class="btn btn-primary" href=" route('comics.index') ">В каталог</a>
+  </div>
 @else
-	<table class="table align-middle">
-		<thead>
-			<tr>
-				<th>Комикс</th>
-				<th class="text-end">Цена</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach($items as $it)
-				<tr>
-					<td>
-						<a href=" route('comics.show', $it['comic']->slug) "> $it['comic']->title </a>
-					</td>
-					<td class="text-end"> $it['comic']->price  ₽</td>
-					<td class="text-end">
-						<form method="POST" action=" route('cart.remove', $it['comic']->id) ">
-							@csrf
-							<button class="btn btn-sm btn-outline-danger">Удалить</button>
-						</form>
-					</td>
-				</tr>
-			@endforeach
-		</tbody>
-		<tfoot>
-			<tr>
-				<th class="text-end" colspan="2">Итого:</th>
-				<th class="text-end"> $total  ₽</th>
-			</tr>
-		</tfoot>
-	</table>
+  <div class="card gomic-card border-0 shadow-sm">
+    <table class="table align-middle mb-0">
+      <thead>
+        <tr>
+          <th>Комикс</th>
+          <th class="text-end">Цена</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach($items as $it)
+          <tr>
+            <td><a class="gomic-link" href=" route('comics.show', $it['comic']->slug) "> $it['comic']->title </a></td>
+            <td class="text-end"> number_format($it['comic']->price, 0, '.', ' ')  ₽</td>
+            <td class="text-end">
+              <form method="POST" action=" route('cart.remove', $it['comic']->id) ">
+                @csrf
+                <button class="btn btn-sm btn-outline-danger">Удалить</button>
+              </form>
+            </td>
+          </tr>
+        @endforeach
+      </tbody>
+      <tfoot>
+        <tr>
+          <th class="text-end" colspan="2">Итого:</th>
+          <th class="text-end gomic-price"> number_format($total, 0, '.', ' ')  ₽</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 
-	@auth
-		<a class="btn btn-success" href=" route('checkout.index') ">Оформить заказ</a>
-	@else
-		<p>Чтобы оформить заказ, войди в аккаунт.</p>
-	@endauth
+  <div class="mt-3">
+    @auth
+      <a class="btn btn-success btn-lg" href=" route('checkout.index') ">Оформить заказ</a>
+    @else
+      <div class="alert alert-info mb-0">Чтобы оформить заказ, <a href=" route('login') ">войди в аккаунт</a>.</div>
+    @endauth
+  </div>
 @endif
 @endsection

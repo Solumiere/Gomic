@@ -1,32 +1,34 @@
 @extends('layouts.app')
 
-@section('content')
-<h1 class="h4 mb-3">Заказ # $order->id </h1>
+@section('title', 'Заказ #'.$order->id.' — Gomic')
 
-<div class="mb-3">
-	<div><strong>Статус:</strong>  $order->status </div>
-	<div><strong>Сумма:</strong>  $order->total  ₽</div>
-	@if($order->paid_at)
-		<div><strong>Оплачен:</strong>  $order->paid_at </div>
-	@endif
+@section('content')
+<h1 class="gomic-title mb-3">Заказ # $order->id </h1>
+
+<div class="card gomic-card border-0 shadow-sm p-3 mb-3 col-lg-7">
+  <div class="d-flex justify-content-between mb-2"><span class="text-muted">Статус</span><span class="gomic-status gomic-status-- $order->status "> $order->status </span></div>
+  <div class="d-flex justify-content-between mb-2"><span class="text-muted">Сумма</span><strong> number_format($order->total, 0, '.', ' ')  ₽</strong></div>
+  @if($order->paid_at)
+    <div class="d-flex justify-content-between"><span class="text-muted">Оплачен</span><span> $order->paid_at->format('d.m.Y H:i') </span></div>
+  @endif
 </div>
 
-<h2 class="h6">Состав</h2>
-<ul class="list-group mb-3">
-	@foreach($order->items as $it)
-		<li class="list-group-item d-flex justify-content-between align-items-center">
-			<span> $it->comic->title </span>
-			<span> $it->unit_price  ₽</span>
-		</li>
-	@endforeach
+<h2 class="h6 mb-2">Состав</h2>
+<ul class="list-group mb-3 col-lg-7">
+  @foreach($order->items as $it)
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <span> $it->comic->title </span>
+      <span> number_format($it->unit_price, 0, '.', ' ')  ₽</span>
+    </li>
+  @endforeach
 </ul>
 
 @if($order->status === \App\Models\Order::STATUS_CREATED)
-	<form method="POST" action=" route('orders.pay', $order) ">
-		@csrf
-		<button class="btn btn-success">Оплатить (имитация)</button>
-	</form>
-@else
-	<p class="text-muted">Если статус paid/completed — доступ к PDF уже открыт.</p>
+  <form method="POST" action=" route('orders.pay', $order) ">
+    @csrf
+    <button class="btn btn-success btn-lg">Оплатить (имитация)</button>
+  </form>
+@elseif(in_array($order->status, [\App\Models\Order::STATUS_PAID, \App\Models\Order::STATUS_COMPLETED]))
+  <div class="alert alert-success col-lg-7">Заказ оплачен — доступ к PDF открыт. Скачать можно со страницы комикса.</div>
 @endif
 @endsection
