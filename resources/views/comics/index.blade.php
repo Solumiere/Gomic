@@ -5,13 +5,13 @@
 
 <form class="row g-2 mb-3" method="GET" action=" route('comics.index') ">
 	<div class="col-md-4">
-		<input class="form-control" name="q" value=" $search ?? request('q') " placeholder="Поиск по названию">
+		<input class="form-control" name="q" value=" request('q') " placeholder="Поиск по названию">
 	</div>
 	<div class="col-md-2">
-		<input class="form-control" name="min" value=" $min ?? request('min') " placeholder="Цена от">
+		<input class="form-control" name="min" value=" request('min') " placeholder="Цена от">
 	</div>
 	<div class="col-md-2">
-		<input class="form-control" name="max" value=" $max ?? request('max') " placeholder="Цена до">
+		<input class="form-control" name="max" value=" request('max') " placeholder="Цена до">
 	</div>
 	<div class="col-md-2">
 		<select class="form-select" name="sort">
@@ -39,7 +39,7 @@
 					<div class="text-muted"> $comic->price  ₽</div>
 				</div>
 				<div class="card-footer bg-white border-0">
-					<form method="POST" action=" route('cart.add', $comic) ">
+					<form method="POST" action=" route('cart.add', $comic->id) ">
 						@csrf
 						<button class="btn btn-sm btn-outline-primary">В корзину</button>
 					</form>
