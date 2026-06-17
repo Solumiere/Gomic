@@ -7,11 +7,11 @@
   <div class="col-md-5">
     <div class="card gomic-card border-0 shadow-sm p-4">
       <h1 class="gomic-title h3 mb-3">Вход</h1>
-      <form method="POST" action=" route('login.store') ">
+      <form method="POST" action="<?= e(route('login.store')) ?>">
         @csrf
         <div class="mb-3">
           <label class="form-label">Email</label>
-          <input class="form-control" type="email" name="email" value=" old('email') " required autofocus>
+          <input class="form-control" type="email" name="email" value="<?= e(old('email')) ?>" required autofocus>
         </div>
         <div class="mb-3">
           <label class="form-label">Пароль</label>
@@ -23,7 +23,7 @@
         </div>
         <button class="btn btn-primary w-100">Войти</button>
       </form>
-      <p class="text-center text-muted mt-3 mb-0">Нет аккаунта? <a href=" route('register') ">Регистрация</a></p>
+      <p class="text-center text-muted mt-3 mb-0">Нет аккаунта? <a href="<?= e(route('register')) ?>">Регистрация</a></p>
     </div>
   </div>
 </div>

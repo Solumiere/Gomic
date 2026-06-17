@@ -5,7 +5,7 @@
 @section('content')
 <div class="d-flex align-items-center justify-content-between mb-3">
   <h1 class="gomic-title mb-0">Админ • Комиксы</h1>
-  <a class="btn btn-success" href=" route('admin.comics.create') ">+ Добавить</a>
+  <a class="btn btn-success" href="<?= e(route('admin.comics.create')) ?>">+ Добавить</a>
 </div>
 
 <div class="card gomic-card border-0 shadow-sm">
@@ -14,9 +14,9 @@
     <tbody>
     @foreach($comics as $comic)
       <tr>
-        <td> $comic->id </td>
-        <td> $comic->title </td>
-        <td> number_format($comic->price, 0, '.', ' ')  ₽</td>
+        <td><?= e($comic->id) ?></td>
+        <td><?= e($comic->title) ?></td>
+        <td><?= e(number_format($comic->price, 0, '.', ' ')) ?> ₽</td>
         <td>
           @if($comic->is_active)
             <span class="badge bg-success">Да</span>
@@ -25,8 +25,8 @@
           @endif
         </td>
         <td class="text-end">
-          <a class="btn btn-sm btn-outline-primary" href=" route('admin.comics.edit', $comic) ">Ред.</a>
-          <form class="d-inline" method="POST" action=" route('admin.comics.destroy', $comic) " onsubmit="return confirm('Удалить?')">
+          <a class="btn btn-sm btn-outline-primary" href="<?= e(route('admin.comics.edit', $comic)) ?>">Ред.</a>
+          <form class="d-inline" method="POST" action="<?= e(route('admin.comics.destroy', $comic)) ?>" onsubmit="return confirm('Удалить?')">
             @csrf
             @method('DELETE')
             <button class="btn btn-sm btn-outline-danger">Удалить</button>
@@ -38,5 +38,5 @@
   </table>
 </div>
 
-<div class="mt-3"> $comics->links() </div>
+<div class="mt-3"><?= $comics->links() ?></div>
 @endsection

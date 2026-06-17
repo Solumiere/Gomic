@@ -9,17 +9,17 @@
   <ul class="list-group list-group-flush mb-3">
     @foreach($comics as $comic)
       <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-        <span> $comic->title </span>
-        <strong> number_format($comic->price, 0, '.', ' ')  ₽</strong>
+        <span><?= e($comic->title) ?></span>
+        <strong><?= e(number_format($comic->price, 0, '.', ' ')) ?> ₽</strong>
       </li>
     @endforeach
     <li class="list-group-item d-flex justify-content-between align-items-center px-0">
       <span class="fw-semibold">Итого</span>
-      <strong class="gomic-price"> number_format($total, 2, '.', ' ')  ₽</strong>
+      <strong class="gomic-price"><?= e(number_format($total, 2, '.', ' ')) ?> ₽</strong>
     </li>
   </ul>
 
-  <form method="POST" action=" route('orders.store') ">
+  <form method="POST" action="<?= e(route('orders.store')) ?>">
     @csrf
     <button class="btn btn-success btn-lg w-100">Создать заказ</button>
   </form>

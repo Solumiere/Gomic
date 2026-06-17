@@ -6,15 +6,15 @@
 <h1 class="gomic-title mb-3">Редактировать комикс</h1>
 
 <div class="card gomic-card border-0 shadow-sm p-4 col-lg-8">
-  <form method="POST" action=" route('admin.comics.update', $comic) " enctype="multipart/form-data">
+  <form method="POST" action="<?= e(route('admin.comics.update', $comic)) ?>" enctype="multipart/form-data">
     @csrf
     @method('PUT')
-    <div class="mb-3"><label class="form-label">Название</label><input class="form-control" name="title" value=" old('title', $comic->title) " required></div>
-    <div class="mb-3"><label class="form-label">Описание</label><textarea class="form-control" name="description" rows="3"> old('description', $comic->description) </textarea></div>
+    <div class="mb-3"><label class="form-label">Название</label><input class="form-control" name="title" value="<?= e(old('title', $comic->title)) ?>" required></div>
+    <div class="mb-3"><label class="form-label">Описание</label><textarea class="form-control" name="description" rows="3"><?= e(old('description', $comic->description)) ?></textarea></div>
     <div class="row g-2">
-      <div class="col-md-4 mb-3"><label class="form-label">Цена</label><input class="form-control" name="price" value=" old('price', $comic->price) " required></div>
-      <div class="col-md-4 mb-3"><label class="form-label">Страниц</label><input class="form-control" name="pages_count" value=" old('pages_count', $comic->pages_count) "></div>
-      <div class="col-md-4 mb-3"><label class="form-label">Год</label><input class="form-control" name="published_year" value=" old('published_year', $comic->published_year) "></div>
+      <div class="col-md-4 mb-3"><label class="form-label">Цена</label><input class="form-control" name="price" value="<?= e(old('price', $comic->price)) ?>" required></div>
+      <div class="col-md-4 mb-3"><label class="form-label">Страниц</label><input class="form-control" name="pages_count" value="<?= e(old('pages_count', $comic->pages_count)) ?>"></div>
+      <div class="col-md-4 mb-3"><label class="form-label">Год</label><input class="form-control" name="published_year" value="<?= e(old('published_year', $comic->published_year)) ?>"></div>
     </div>
     <div class="form-check mb-3">
       <input class="form-check-input" type="checkbox" name="is_active" id="active" value="1" @checked(old('is_active', $comic->is_active))>

@@ -11,13 +11,13 @@
     <tbody>
     @foreach($reviews as $r)
       <tr>
-        <td> $r->id </td>
-        <td> $r->comic->title </td>
-        <td> $r->user->email </td>
-        <td><span class="gomic-stars"> str_repeat('★', (int) $r->rating) </span></td>
-        <td> $r->created_at->format('d.m.Y') </td>
+        <td><?= e($r->id) ?></td>
+        <td><?= e($r->comic->title) ?></td>
+        <td><?= e($r->user->email) ?></td>
+        <td><span class="gomic-stars"><?= e(str_repeat('★', (int)$r->rating)) ?></span></td>
+        <td><?= e($r->created_at->format('d.m.Y')) ?></td>
         <td class="text-end">
-          <form method="POST" action=" route('admin.reviews.destroy', $r) " onsubmit="return confirm('Удалить отзыв?')">
+          <form method="POST" action="<?= e(route('admin.reviews.destroy', $r)) ?>" onsubmit="return confirm('Удалить отзыв?')">
             @csrf
             @method('DELETE')
             <button class="btn btn-sm btn-outline-danger">Удалить</button>
@@ -29,5 +29,5 @@
   </table>
 </div>
 
-<div class="mt-3"> $reviews->links() </div>
+<div class="mt-3"><?= $reviews->links() ?></div>
 @endsection

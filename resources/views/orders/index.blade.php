@@ -7,7 +7,7 @@
 
 @if($orders->isEmpty())
   <div class="gomic-empty text-center py-5">
-    <div class="display-6 mb-2">\uD83E\uDDFE</div>
+    <div class="display-6 mb-2">🧾</div>
     <p class="text-muted mb-0">Заказов пока нет.</p>
   </div>
 @else
@@ -25,17 +25,17 @@
       <tbody>
         @foreach($orders as $order)
           <tr>
-            <td> $order->id </td>
-            <td><span class="gomic-status gomic-status-- $order->status "> $order->status </span></td>
-            <td> number_format($order->total, 0, '.', ' ')  ₽</td>
-            <td> $order->created_at->format('d.m.Y H:i') </td>
-            <td class="text-end"><a class="btn btn-sm btn-outline-primary" href=" route('orders.show', $order) ">Открыть</a></td>
+            <td><?= e($order->id) ?></td>
+            <td><span class="gomic-status gomic-status--<?= e($order->status) ?>"><?= e($order->status) ?></span></td>
+            <td><?= e(number_format($order->total, 0, '.', ' ')) ?> ₽</td>
+            <td><?= e($order->created_at->format('d.m.Y H:i')) ?></td>
+            <td class="text-end"><a class="btn btn-sm btn-outline-primary" href="<?= e(route('orders.show', $order)) ?>">Открыть</a></td>
           </tr>
         @endforeach
       </tbody>
     </table>
   </div>
 
-  <div class="mt-3"> $orders->links() </div>
+  <div class="mt-3"><?= $orders->links() ?></div>
 @endif
 @endsection
