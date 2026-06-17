@@ -22,7 +22,7 @@
 					</td>
 					<td class="text-end"> $it['comic']->price  ₽</td>
 					<td class="text-end">
-						<form method="POST" action=" route('cart.remove', $it['comic']->id) ">
+						<form method="POST" action=" route('cart.remove', $it['comic']) ">
 							@csrf
 							<button class="btn btn-sm btn-outline-danger">Удалить</button>
 						</form>
