@@ -21,9 +21,9 @@
     <a class="btn btn-primary" href="<?= e(route('comics.index')) ?>">Перейти в каталог</a>
   </div>
 @else
-  <div class="row g-4 mb-4">
+  <div class="row g-3 mb-4">
     @foreach($purchasedComics as $comic)
-      <div class="col-sm-6 col-lg-4">
+      <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
         <div class="card gomic-card h-100 border-0 shadow-sm">
           <a href="<?= e(route('comics.show', $comic->slug)) ?>" class="gomic-cover">
             @if($comic->cover_image_path)
@@ -32,9 +32,9 @@
               <div class="gomic-cover__placeholder">📖</div>
             @endif
           </a>
-          <div class="card-body d-flex flex-column">
-            <h3 class="h6 mb-2"><a class="gomic-link" href="<?= e(route('comics.show', $comic->slug)) ?>"><?= e($comic->title) ?></a></h3>
-            <a class="btn btn-primary w-100 mt-auto" href="<?= e(route('comics.download', $comic->id)) ?>">📥 Скачать PDF</a>
+          <div class="card-body p-2 d-flex flex-column">
+            <h3 class="small mb-2"><a class="gomic-link" href="<?= e(route('comics.show', $comic->slug)) ?>"><?= e($comic->title) ?></a></h3>
+            <a class="btn btn-primary btn-sm w-100 mt-auto" href="<?= e(route('comics.download', $comic->id)) ?>">📥 PDF</a>
           </div>
         </div>
       </div>
