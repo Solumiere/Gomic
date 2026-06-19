@@ -24,13 +24,32 @@ class OrderController
     {
         abort_unless($order->user_id === $request->user()->id || $request->user()->is_admin, 403);
 
-        $order->load(['items.comic']);
+        $order->load(['items.comic', 'user']);
 
         return view('orders.show', compact('order'));
     }
 
     public function store(Request $request)
     {
+        // Оставляем только цифры в номере и CVV
+        $request->merge([
+            'card_number' => preg_replace('/\D/', '', (string) $request->input('card_number')),
+            'card_cvv' => preg_replace('/\D/', '', (string) $request->input('card_cvv')),
+        ]);
+
+        $request->validate([
+            'card_number' => ['required', 'regex:/^\d{16}$/'],
+            'card_exp' => ['required', 'regex:/^(0[1-9]|1[0-2])\/\d{2}$/'],
+            'card_cvv' => ['required', 'regex:/^\d{3,4}$/'],
+        ], [
+            'card_number.required' => 'Введите номер карты',
+            'card_number.regex' => 'Номер карты должен содержать 16 цифр',
+            'card_exp.required' => 'Введите срок действия карты',
+            'card_exp.regex' => 'Срок действия в формате ММ/ГГ',
+            'card_cvv.required' => 'Введите CVV-код',
+            'card_cvv.regex' => 'CVV должен содержать 3 цифры',
+        ]);
+
         $cart = $request->session()->get('cart', []);
         $ids = array_keys($cart);
         $comics = $ids ? Comic::whereIn('id', $ids)->get() : collect();
@@ -48,7 +67,7 @@ class OrderController
                 'user_id' => $user->id,
                 'status' => Order::STATUS_CREATED,
                 'total' => $total,
-                'payment_method' => 'demo',
+                'payment_method' => 'card',
             ]);
 
             foreach ($comics as $comic) {
@@ -63,7 +82,7 @@ class OrderController
             // очистить корзину
             $request->session()->forget('cart');
 
-            return redirect()->route('orders.show', $order)->with('success', 'Заказ создан. Нажми «Оплатить» для имитации оплаты.');
+            return redirect()->route('orders.show', $order)->with('success', 'Заказ создан. Проверьте данные и нажмите «Оплатить».');
         });
     }
 
@@ -80,6 +99,6 @@ class OrderController
             'paid_at' => now(),
         ]);
 
-        return back()->with('success', 'Оплата имитирована. Доступ к PDF открыт навсегда.');
+        return redirect()->route('profile.index')->with('success', 'Оплата прошла успешно! Купленные комиксы доступны в профиле.');
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\ComicController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\Auth\LoginController;
@@ -33,6 +34,8 @@ Route::post('/cart/add/{comic}', [CartController::class, 'add'])->name('cart.add
 Route::post('/cart/remove/{comic}', [CartController::class, 'remove'])->name('cart.remove');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 

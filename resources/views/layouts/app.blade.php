@@ -22,6 +22,7 @@
         <li class="nav-item"><a class="nav-link" href="<?= e(route('comics.index')) ?>">Каталог</a></li>
         <li class="nav-item"><a class="nav-link" href="<?= e(route('cart.index')) ?>">Корзина</a></li>
         @auth
+          <li class="nav-item"><a class="nav-link" href="<?= e(route('profile.index')) ?>">Профиль</a></li>
           <li class="nav-item"><a class="nav-link" href="<?= e(route('orders.index')) ?>">Заказы</a></li>
           @if(auth()->user()->is_admin)
             <li class="nav-item"><a class="nav-link" href="<?= e(route('admin.comics.index')) ?>">Админ</a></li>
