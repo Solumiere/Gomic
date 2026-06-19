@@ -56,7 +56,7 @@
             @endif
             <div class="gomic-price mt-auto"><?= e(number_format($comic->price, 0, '.', ' ')) ?> ₽</div>
           </div>
-          <div class="card-footer bg-white border-0 pt-0">
+          <div class="card-footer bg-transparent border-0 pt-0">
             <form method="POST" action="<?= e(route('cart.add', $comic->id)) ?>">
               @csrf
               <button class="btn btn-outline-primary w-100">В корзину</button>

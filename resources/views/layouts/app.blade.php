@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-bs-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,7 +18,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="nav">
-      <ul class="navbar-nav me-auto">
+      <ul class="navbar-nav me-3">
         <li class="nav-item"><a class="nav-link" href="<?= e(route('comics.index')) ?>">Каталог</a></li>
         <li class="nav-item"><a class="nav-link" href="<?= e(route('cart.index')) ?>">Корзина</a></li>
         @auth
@@ -28,6 +28,10 @@
           @endif
         @endauth
       </ul>
+      <form class="d-flex gomic-search me-auto my-2 my-lg-0" method="GET" action="<?= e(route('comics.index')) ?>" role="search">
+        <input class="form-control form-control-sm" type="search" name="q" value="<?= e(request('q')) ?>" placeholder="Поиск комиксов">
+        <button class="btn btn-sm btn-light ms-2" type="submit">Найти</button>
+      </form>
       <ul class="navbar-nav ms-auto align-items-lg-center">
         @guest
           <li class="nav-item"><a class="nav-link" href="<?= e(route('login')) ?>">Вход</a></li>
