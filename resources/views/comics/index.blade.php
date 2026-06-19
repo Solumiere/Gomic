@@ -11,6 +11,15 @@
       <label class="form-label small text-muted">Поиск</label>
       <input class="form-control" name="q" value="<?= e(request('q')) ?>" placeholder="Название комикса">
     </div>
+    <div class="col-md-3">
+      <label class="form-label small text-muted">Жанр</label>
+      <select class="form-select" name="genre">
+        <option value="">Все жанры</option>
+        @foreach($genres as $g)
+          <option value="<?= e($g->slug) ?>" @selected(request('genre')===$g->slug)><?= e($g->name) ?></option>
+        @endforeach
+      </select>
+    </div>
     <div class="col-md-2">
       <label class="form-label small text-muted">Цена от</label>
       <input class="form-control" name="min" value="<?= e(request('min')) ?>" placeholder="0">
@@ -19,7 +28,7 @@
       <label class="form-label small text-muted">Цена до</label>
       <input class="form-control" name="max" value="<?= e(request('max')) ?>" placeholder="9999">
     </div>
-    <div class="col-md-2">
+    <div class="col-md-3">
       <label class="form-label small text-muted">Сортировка</label>
       <select class="form-select" name="sort">
         <option value="price_asc" @selected(request('sort','price_asc')==='price_asc')>Цена ↑</option>
@@ -53,6 +62,13 @@
             <h2 class="h6 mb-1"><a class="gomic-link" href="<?= e(route('comics.show', $comic->slug)) ?>"><?= e($comic->title) ?></a></h2>
             @if($comic->author)
               <div class="small text-muted mb-2"><?= e($comic->author) ?></div>
+            @endif
+            @if($comic->genres->isNotEmpty())
+              <div class="d-flex flex-wrap gap-1 mb-2">
+                @foreach($comic->genres as $g)
+                  <span class="gomic-genre"><?= e($g->name) ?></span>
+                @endforeach
+              </div>
             @endif
             <div class="gomic-price mt-auto"><?= e(number_format($comic->price, 0, '.', ' ')) ?> ₽</div>
           </div>

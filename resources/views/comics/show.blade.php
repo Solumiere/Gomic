@@ -21,6 +21,13 @@
         <span class="gomic-stars"><?= e(str_repeat('★', (int)round($avgRating)).str_repeat('☆', 5 - (int)round($avgRating))) ?></span>
         <span class="text-muted ms-1"><?= e(number_format($avgRating, 1)) ?> / 5</span>
       </div>
+      @if($comic->genres->isNotEmpty())
+        <div class="d-flex flex-wrap gap-1 mb-3">
+          @foreach($comic->genres as $g)
+            <span class="gomic-genre"><?= e($g->name) ?></span>
+          @endforeach
+        </div>
+      @endif
       <p class="mb-3"><?= e($comic->description) ?></p>
       <div class="d-flex flex-wrap gap-3 text-muted small mb-3">
         @if($comic->pages_count)<span>📄 <?= e($comic->pages_count) ?> стр.</span>@endif

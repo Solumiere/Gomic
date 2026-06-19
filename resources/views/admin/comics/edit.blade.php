@@ -16,6 +16,15 @@
       <div class="col-md-4 mb-3"><label class="form-label">Страниц</label><input class="form-control" name="pages_count" value="<?= e(old('pages_count', $comic->pages_count)) ?>"></div>
       <div class="col-md-4 mb-3"><label class="form-label">Год</label><input class="form-control" name="published_year" value="<?= e(old('published_year', $comic->published_year)) ?>"></div>
     </div>
+    <div class="mb-3">
+      <label class="form-label">Жанры</label>
+      <select class="form-select" name="genres[]" multiple size="6">
+        @foreach($genres as $g)
+          <option value="<?= e($g->id) ?>" @selected(collect(old('genres', $comic->genres->pluck('id')->all()))->contains($g->id))><?= e($g->name) ?></option>
+        @endforeach
+      </select>
+      <div class="form-text">Удерживайте Ctrl (Cmd) для выбора нескольких</div>
+    </div>
     <div class="form-check mb-3">
       <input class="form-check-input" type="checkbox" name="is_active" id="active" value="1" @checked(old('is_active', $comic->is_active))>
       <label class="form-check-label" for="active">Активен</label>

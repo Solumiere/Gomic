@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Comic;
+use App\Models\Genre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -17,7 +18,8 @@ class AdminComicController
 
     public function create()
     {
-        return view('admin.comics.create');
+        $genres = Genre::orderBy('name')->get();
+        return view('admin.comics.create', compact('genres'));
     }
 
     public function store(Request $request)
@@ -31,6 +33,8 @@ class AdminComicController
             'is_active' => ['nullable','boolean'],
             'cover' => ['nullable','image','max:4096'],
             'pdf' => ['required','file','mimes:pdf','max:51200'],
+            'genres' => ['nullable','array'],
+            'genres.*' => ['integer','exists:genres,id'],
         ]);
 
         $slug = Str::slug($data['title']);
@@ -45,7 +49,7 @@ class AdminComicController
 
         $pdfPath = $request->file('pdf')->store('comics', 'private');
 
-        Comic::create([
+        $comic = Comic::create([
             'title' => $data['title'],
             'slug' => $slug,
             'description' => $data['description'] ?? null,
@@ -57,12 +61,16 @@ class AdminComicController
             'is_active' => (bool)($data['is_active'] ?? true),
         ]);
 
+        $comic->genres()->sync($data['genres'] ?? []);
+
         return redirect()->route('admin.comics.index')->with('success', 'Комикс добавлен');
     }
 
     public function edit(Comic $comic)
     {
-        return view('admin.comics.edit', compact('comic'));
+        $genres = Genre::orderBy('name')->get();
+        $comic->load('genres');
+        return view('admin.comics.edit', compact('comic', 'genres'));
     }
 
     public function update(Request $request, Comic $comic)
@@ -76,6 +84,8 @@ class AdminComicController
             'is_active' => ['nullable','boolean'],
             'cover' => ['nullable','image','max:4096'],
             'pdf' => ['nullable','file','mimes:pdf','max:51200'],
+            'genres' => ['nullable','array'],
+            'genres.*' => ['integer','exists:genres,id'],
         ]);
 
         if ($request->file('cover')) {
@@ -98,6 +108,8 @@ class AdminComicController
             'published_year' => $data['published_year'] ?? null,
             'is_active' => (bool)($data['is_active'] ?? false),
         ])->save();
+
+        $comic->genres()->sync($data['genres'] ?? []);
 
         return redirect()->route('admin.comics.index')->with('success', 'Комикс обновлён');
     }
