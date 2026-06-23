@@ -29,7 +29,6 @@
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Админ</a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="<?= e(route('admin.comics.index')) ?>">Комиксы</a></li>
-                <li><a class="dropdown-item" href="<?= e(route('admin.orders.index')) ?>">Заказы</a></li>
                 <li><a class="dropdown-item" href="<?= e(route('admin.reviews.index')) ?>">Отзывы</a></li>
               </ul>
             </li>

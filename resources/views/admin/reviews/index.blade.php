@@ -7,7 +7,7 @@
 
 <div class="card gomic-card border-0 shadow-sm">
   <table class="table align-middle mb-0">
-    <thead><tr><th>ID</th><th>Комикс</th><th>Пользователь</th><th>Оценка</th><th>Дата</th><th></th></tr></thead>
+    <thead><tr><th>ID</th><th>Комикс</th><th>Пользователь</th><th>Оценка</th><th>Отзыв</th><th>Дата</th><th></th></tr></thead>
     <tbody>
     @foreach($reviews as $r)
       <tr>
@@ -15,6 +15,7 @@
         <td><?= e($r->comic->title) ?></td>
         <td><?= e($r->user->email) ?></td>
         <td><span class="gomic-stars"><?= e(str_repeat('★', (int)$r->rating)) ?></span></td>
+        <td style="max-width:380px;white-space:normal"><?= e($r->body) ?></td>
         <td><?= e($r->created_at->format('d.m.Y')) ?></td>
         <td class="text-end">
           <form method="POST" action="<?= e(route('admin.reviews.destroy', $r)) ?>" onsubmit="return confirm('Удалить отзыв?')">
