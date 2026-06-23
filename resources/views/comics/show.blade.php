@@ -6,7 +6,11 @@
 <div class="card gomic-card border-0 shadow-sm p-4 mb-4">
   <div class="row g-4">
     <div class="col-md-4">
-      <img class="img-fluid rounded-3 w-100" src="<?= e($comic->cover_url) ?>" alt="<?= e($comic->title) ?>">
+      @if($comic->cover_image_path)
+        <img class="img-fluid rounded-3 w-100" src="<?= e(asset('storage/'.$comic->cover_image_path)) ?>" alt="<?= e($comic->title) ?>">
+      @else
+        <div class="gomic-cover__placeholder rounded-3" style="height:320px">📖</div>
+      @endif
     </div>
     <div class="col-md-8">
       <h1 class="gomic-title mb-2"><?= e($comic->title) ?></h1>

@@ -53,7 +53,11 @@
       <div class="col-sm-6 col-lg-4">
         <div class="card gomic-card h-100 border-0 shadow-sm">
           <a href="<?= e(route('comics.show', $comic->slug)) ?>" class="gomic-cover">
-            <img src="<?= e($comic->cover_url) ?>" alt="<?= e($comic->title) ?>">
+            @if($comic->cover_image_path)
+              <img src="<?= e(asset('storage/'.$comic->cover_image_path)) ?>" alt="<?= e($comic->title) ?>">
+            @else
+              <div class="gomic-cover__placeholder">📖</div>
+            @endif
           </a>
           <div class="card-body d-flex flex-column">
             <h2 class="h6 mb-1"><a class="gomic-link" href="<?= e(route('comics.show', $comic->slug)) ?>"><?= e($comic->title) ?></a></h2>
