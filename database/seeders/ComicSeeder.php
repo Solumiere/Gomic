@@ -22,7 +22,8 @@ class ComicSeeder extends Seeder
 
         $items = [
             [
-                'title' => 'Batman: Year One',
+                'slug' => 'batman-year-one',
+                'title' => 'Бэтмен: Первый год',
                 'author' => 'Фрэнк Миллер',
                 'price' => 399.00,
                 'published_year' => 1987,
@@ -31,7 +32,8 @@ class ComicSeeder extends Seeder
                 'genres' => ['Супергерои', 'Детектив', 'Боевик'],
             ],
             [
-                'title' => 'Spider-Man: Blue',
+                'slug' => 'spider-man-blue',
+                'title' => 'Человек-паук: Синева',
                 'author' => 'Джеф Лоэб',
                 'price' => 349.00,
                 'published_year' => 2002,
@@ -40,7 +42,8 @@ class ComicSeeder extends Seeder
                 'genres' => ['Супергерои', 'Драма'],
             ],
             [
-                'title' => 'Watchmen',
+                'slug' => 'watchmen',
+                'title' => 'Хранители',
                 'author' => 'Алан Мур',
                 'price' => 599.00,
                 'published_year' => 1986,
@@ -49,7 +52,8 @@ class ComicSeeder extends Seeder
                 'genres' => ['Супергерои', 'Триллер', 'Фантастика'],
             ],
             [
-                'title' => 'The Sandman',
+                'slug' => 'the-sandman',
+                'title' => 'Песочный человек',
                 'author' => 'Нил Гейман',
                 'price' => 649.00,
                 'published_year' => 1989,
@@ -58,7 +62,8 @@ class ComicSeeder extends Seeder
                 'genres' => ['Фэнтези', 'Драма', 'Хоррор'],
             ],
             [
-                'title' => 'Maus',
+                'slug' => 'maus',
+                'title' => 'Маус',
                 'author' => 'Арт Шпигельман',
                 'price' => 549.00,
                 'published_year' => 1991,
@@ -67,7 +72,8 @@ class ComicSeeder extends Seeder
                 'genres' => ['Драма', 'Биография'],
             ],
             [
-                'title' => 'V for Vendetta',
+                'slug' => 'v-for-vendetta',
+                'title' => 'V — значит вендетта',
                 'author' => 'Алан Мур',
                 'price' => 479.00,
                 'published_year' => 1988,
@@ -76,7 +82,8 @@ class ComicSeeder extends Seeder
                 'genres' => ['Фантастика', 'Триллер', 'Боевик'],
             ],
             [
-                'title' => 'Saga',
+                'slug' => 'saga',
+                'title' => 'Сага',
                 'author' => 'Брайан К. Вон',
                 'price' => 529.00,
                 'published_year' => 2012,
@@ -85,7 +92,8 @@ class ComicSeeder extends Seeder
                 'genres' => ['Фантастика', 'Приключения', 'Драма'],
             ],
             [
-                'title' => 'Sin City',
+                'slug' => 'sin-city',
+                'title' => 'Город грехов',
                 'author' => 'Фрэнк Миллер',
                 'price' => 499.00,
                 'published_year' => 1991,
@@ -94,7 +102,8 @@ class ComicSeeder extends Seeder
                 'genres' => ['Детектив', 'Боевик', 'Триллер'],
             ],
             [
-                'title' => 'Hellboy',
+                'slug' => 'hellboy',
+                'title' => 'Хеллбой',
                 'author' => 'Майк Миньола',
                 'price' => 459.00,
                 'published_year' => 1994,
@@ -105,9 +114,8 @@ class ComicSeeder extends Seeder
         ];
 
         foreach ($items as $i) {
-            $slug = Str::slug($i['title']);
             $comic = Comic::updateOrCreate(
-                ['slug' => $slug],
+                ['slug' => $i['slug']],
                 [
                     'title' => $i['title'],
                     'author' => $i['author'],
