@@ -35,4 +35,30 @@ class ReviewController
 
         return back()->with('success', 'Отзыв сохранён');
     }
+
+    public function update(Request $request, Review $review)
+    {
+        abort_unless((int)$review->user_id === (int)$request->user()->id, 403);
+
+        $request->validate([
+            'rating' => ['required','integer','min:1','max:5'],
+            'body' => ['required','string','min:3','max:2000'],
+        ]);
+
+        $review->update([
+            'rating' => (int)$request->rating,
+            'body' => (string)$request->body,
+        ]);
+
+        return back()->with('success', 'Отзыв обновлён');
+    }
+
+    public function destroy(Request $request, Review $review)
+    {
+        abort_unless((int)$review->user_id === (int)$request->user()->id, 403);
+
+        $review->delete();
+
+        return back()->with('success', 'Отзыв удалён');
+    }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\ComicController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\DownloadController;
@@ -41,10 +42,13 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::get('/orders/{order}/receipt', [ReceiptController::class, 'show'])->name('orders.receipt');
     Route::post('/orders/{order}/pay', [OrderController::class, 'pay'])->name('orders.pay');
 
     Route::get('/comics/{comic}/download', [DownloadController::class, 'comicPdf'])->name('comics.download');
     Route::post('/comics/{comic}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::patch('/reviews/{review}', [ReviewController::class, 'update'])->name('reviews.update');
+    Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
 
 // Admin

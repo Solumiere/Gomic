@@ -61,6 +61,15 @@
 <div class="card gomic-card border-0 shadow-sm p-4">
   <h2 class="h5 mb-3">Отзывы</h2>
 
+  @php
+    $myReview = null;
+    if (auth()->check()) {
+      foreach ($reviews as $r) {
+        if ((int)$r->user_id === (int)auth()->id()) { $myReview = $r; break; }
+      }
+    }
+  @endphp
+
   @if($reviews->isEmpty())
     <p class="text-muted mb-0">Пока нет отзывов.</p>
   @else
@@ -72,8 +81,36 @@
         </div>
         <div class="small text-muted mb-1"><?= e($review->created_at->format('d.m.Y')) ?></div>
         <div><?= e($review->body) ?></div>
+
         @auth
-          @if(auth()->user()->is_admin)
+          @if((int)auth()->id() === (int)$review->user_id)
+            <div class="mt-2 d-flex gap-2">
+              <button type="button" class="btn btn-sm btn-outline-primary" onclick="toggleEditReview(<?= e($review->id) ?>)">Редактировать</button>
+              <form method="POST" action="<?= e(route('reviews.destroy', $review)) ?>" onsubmit="return confirm('Удалить ваш отзыв?')">
+                @csrf
+                @method('DELETE')
+                <button class="btn btn-sm btn-outline-danger">Удалить</button>
+              </form>
+            </div>
+            <form method="POST" action="<?= e(route('reviews.update', $review)) ?>" id="edit-review-<?= e($review->id) ?>" class="mt-2" style="display:none">
+              @csrf
+              @method('PATCH')
+              <div class="mb-2">
+                <label class="form-label small">Оценка</label>
+                <select class="form-select form-select-sm" name="rating" required>
+                  @for($i = 5; $i >= 1; $i--)
+                    <option value="<?= e($i) ?>" @selected((int)$review->rating === $i)><?= e($i) ?></option>
+                  @endfor
+                </select>
+              </div>
+              <div class="mb-2">
+                <label class="form-label small">Текст</label>
+                <textarea class="form-control form-control-sm" name="body" rows="3" required><?= e($review->body) ?></textarea>
+              </div>
+              <button class="btn btn-sm btn-success">Сохранить</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" onclick="toggleEditReview(<?= e($review->id) ?>)">Отмена</button>
+            </form>
+          @elseif(auth()->user()->is_admin)
             <form method="POST" action="<?= e(route('admin.reviews.destroy', $review)) ?>" class="mt-2" onsubmit="return confirm('Удалить отзыв?')">
               @csrf
               @method('DELETE')
@@ -87,23 +124,34 @@
 
   @auth
     <hr class="my-4">
-    <h3 class="h6 mb-3">Оставить отзыв <span class="text-muted small">(доступно после покупки)</span></h3>
-    <form method="POST" action="<?= e(route('reviews.store', $comic)) ?>" class="col-lg-8">
-      @csrf
-      <div class="mb-2">
-        <label class="form-label">Оценка</label>
-        <select class="form-select" name="rating" required>
-          @for($i = 5; $i >= 1; $i--)
-            <option value="<?= e($i) ?>"><?= e($i) ?></option>
-          @endfor
-        </select>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Текст</label>
-        <textarea class="form-control" name="body" rows="3" required></textarea>
-      </div>
-      <button class="btn btn-success">Отправить</button>
-    </form>
+    @if($myReview)
+      <p class="text-muted mb-0">Вы уже оставили отзыв — отредактируйте его выше.</p>
+    @else
+      <h3 class="h6 mb-3">Оставить отзыв <span class="text-muted small">(доступно после покупки)</span></h3>
+      <form method="POST" action="<?= e(route('reviews.store', $comic)) ?>" class="col-lg-8">
+        @csrf
+        <div class="mb-2">
+          <label class="form-label">Оценка</label>
+          <select class="form-select" name="rating" required>
+            @for($i = 5; $i >= 1; $i--)
+              <option value="<?= e($i) ?>"><?= e($i) ?></option>
+            @endfor
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Текст</label>
+          <textarea class="form-control" name="body" rows="3" required></textarea>
+        </div>
+        <button class="btn btn-success">Отправить</button>
+      </form>
+    @endif
   @endauth
 </div>
+
+<script>
+function toggleEditReview(id) {
+  var f = document.getElementById('edit-review-' + id);
+  if (f) { f.style.display = (f.style.display === 'none' || !f.style.display) ? 'block' : 'none'; }
+}
+</script>
 @endsection
