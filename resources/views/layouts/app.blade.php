@@ -11,6 +11,7 @@
   <link href="<?= e(asset('css/app.css')) ?>" rel="stylesheet">
 </head>
 <body>
+@php $cartCount = count(session('cart', [])); @endphp
 <nav class="navbar navbar-expand-lg navbar-dark gomic-nav sticky-top">
   <div class="container">
     <a class="navbar-brand" href="<?= e(route('home')) ?>">📚 Gomic</a>
@@ -20,7 +21,14 @@
     <div class="collapse navbar-collapse" id="nav">
       <ul class="navbar-nav me-3">
         <li class="nav-item"><a class="nav-link" href="<?= e(route('comics.index')) ?>">Каталог</a></li>
-        <li class="nav-item"><a class="nav-link" href="<?= e(route('cart.index')) ?>">Корзина</a></li>
+        <li class="nav-item">
+          <a class="nav-link d-inline-flex align-items-center gap-1" href="<?= e(route('cart.index')) ?>">
+            🛒 Корзина
+            @if($cartCount > 0)
+              <span class="badge rounded-pill bg-primary"><?= e($cartCount) ?></span>
+            @endif
+          </a>
+        </li>
         @auth
           <li class="nav-item"><a class="nav-link" href="<?= e(route('profile.index')) ?>">Профиль</a></li>
           <li class="nav-item"><a class="nav-link" href="<?= e(route('orders.index')) ?>">Заказы</a></li>
