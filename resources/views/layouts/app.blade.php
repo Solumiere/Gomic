@@ -23,7 +23,7 @@
         <li class="nav-item"><a class="nav-link" href="<?= e(route('comics.index')) ?>">Каталог</a></li>
         <li class="nav-item">
           <a class="nav-link d-inline-flex align-items-center gap-1" href="<?= e(route('cart.index')) ?>">
-            🛒 Корзина
+            Корзина
             @if($cartCount > 0)
               <span class="badge rounded-pill bg-primary"><?= e($cartCount) ?></span>
             @endif
