@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use App\Models\Comic;
 use App\Models\Genre;
 use Illuminate\Support\Str;
@@ -11,12 +13,24 @@ class ComicSeeder extends Seeder
 {
     public function run(): void
     {
-        // Удаляем добавленные ранее 6 комиксов и лишние жанры, оставляем исходные
+        // Удаляем добавленные ранее 6 комиксов вместе со связанными записями
         $removeSlugs = ['the-sandman', 'maus', 'v-for-vendetta', 'saga', 'sin-city', 'hellboy'];
-        foreach (Comic::whereIn('slug', $removeSlugs)->get() as $old) {
-            $old->genres()->detach();
-            $old->delete();
+        $removeIds = Comic::whereIn('slug', $removeSlugs)->pluck('id')->all();
+
+        if (!empty($removeIds)) {
+            if (Schema::hasTable('order_items')) {
+                DB::table('order_items')->whereIn('comic_id', $removeIds)->delete();
+            }
+            if (Schema::hasTable('reviews')) {
+                DB::table('reviews')->whereIn('comic_id', $removeIds)->delete();
+            }
+            if (Schema::hasTable('comic_genre')) {
+                DB::table('comic_genre')->whereIn('comic_id', $removeIds)->delete();
+            }
+            Comic::whereIn('id', $removeIds)->delete();
         }
+
+        // Удаляем лишние жанры
         Genre::whereIn('name', ['Фэнтези', 'Хоррор', 'Приключения', 'Биография'])->delete();
 
         $genreNames = ['Супергерои', 'Боевик', 'Драма', 'Детектив', 'Фантастика', 'Триллер'];
