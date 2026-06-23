@@ -38,6 +38,11 @@ class CartController
 
     public function add(Request $request, Comic $comic)
     {
+        $user = $request->user();
+        if ($user && $user->hasPurchased($comic->id)) {
+            return back()->with('error', 'Вы уже купили этот комикс');
+        }
+
         $cart = $this->cart($request);
         $cart[$comic->id] = 1; // цифровой товар — всегда 1
         $this->save($request, $cart);

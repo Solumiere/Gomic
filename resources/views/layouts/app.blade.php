@@ -25,7 +25,14 @@
           <li class="nav-item"><a class="nav-link" href="<?= e(route('profile.index')) ?>">Профиль</a></li>
           <li class="nav-item"><a class="nav-link" href="<?= e(route('orders.index')) ?>">Заказы</a></li>
           @if(auth()->user()->is_admin)
-            <li class="nav-item"><a class="nav-link" href="<?= e(route('admin.comics.index')) ?>">Админ</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Админ</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="<?= e(route('admin.comics.index')) ?>">Комиксы</a></li>
+                <li><a class="dropdown-item" href="<?= e(route('admin.orders.index')) ?>">Заказы</a></li>
+                <li><a class="dropdown-item" href="<?= e(route('admin.reviews.index')) ?>">Отзывы</a></li>
+              </ul>
+            </li>
           @endif
         @endauth
       </ul>

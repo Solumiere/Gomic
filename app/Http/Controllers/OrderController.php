@@ -33,14 +33,14 @@ class OrderController
     {
         // Оставляем только цифры в номере и CVV
         $request->merge([
-            'card_number' => preg_replace('/\D/', '', (string) $request->input('card_number')),
-            'card_cvv' => preg_replace('/\D/', '', (string) $request->input('card_cvv')),
+            'card_number' => preg_replace('/\\D/', '', (string) $request->input('card_number')),
+            'card_cvv' => preg_replace('/\\D/', '', (string) $request->input('card_cvv')),
         ]);
 
         $request->validate([
-            'card_number' => ['required', 'regex:/^\d{16}$/'],
-            'card_exp' => ['required', 'regex:/^(0[1-9]|1[0-2])\/\d{2}$/'],
-            'card_cvv' => ['required', 'regex:/^\d{3,4}$/'],
+            'card_number' => ['required', 'regex:/^\\d{16}$/'],
+            'card_exp' => ['required', 'regex:/^(0[1-9]|1[0-2])\\/\\d{2}$/'],
+            'card_cvv' => ['required', 'regex:/^\\d{3,4}$/'],
         ], [
             'card_number.required' => 'Введите номер карты',
             'card_number.regex' => 'Номер карты должен содержать 16 цифр',
@@ -59,6 +59,15 @@ class OrderController
         }
 
         $user = $request->user();
+
+        // Нельзя купить то, что уже куплено
+        $owned = $user->purchasedComicIds();
+        $comics = $comics->reject(fn ($c) => $owned->contains($c->id))->values();
+
+        if ($comics->isEmpty()) {
+            $request->session()->forget('cart');
+            return redirect()->route('cart.index')->with('error', 'Вы уже купили все комиксы из корзины');
+        }
 
         return DB::transaction(function () use ($request, $user, $comics) {
             $total = (float) $comics->sum('price');

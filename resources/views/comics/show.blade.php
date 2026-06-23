@@ -36,12 +36,22 @@
       <div class="gomic-price gomic-price--lg mb-3"><?= e(number_format($comic->price, 0, '.', ' ')) ?> ₽</div>
 
       <div class="d-flex flex-wrap gap-2">
-        <form method="POST" action="<?= e(route('cart.add', $comic->id)) ?>">
-          @csrf
-          <button class="btn btn-primary px-4">В корзину</button>
-        </form>
         @auth
-          <a class="btn btn-outline-secondary" href="<?= e(route('comics.download', $comic)) ?>">Скачать PDF</a>
+          @if(auth()->user()->hasPurchased($comic->id))
+            <a class="btn btn-success px-4" href="<?= e(route('profile.index')) ?>">✓ Уже куплено</a>
+            <a class="btn btn-outline-secondary" href="<?= e(route('comics.download', $comic)) ?>">Скачать PDF</a>
+          @else
+            <form method="POST" action="<?= e(route('cart.add', $comic->id)) ?>">
+              @csrf
+              <button class="btn btn-primary px-4">В корзину</button>
+            </form>
+            <a class="btn btn-outline-secondary" href="<?= e(route('comics.download', $comic)) ?>">Скачать PDF</a>
+          @endif
+        @else
+          <form method="POST" action="<?= e(route('cart.add', $comic->id)) ?>">
+            @csrf
+            <button class="btn btn-primary px-4">В корзину</button>
+          </form>
         @endauth
       </div>
     </div>
@@ -62,6 +72,15 @@
         </div>
         <div class="small text-muted mb-1"><?= e($review->created_at->format('d.m.Y')) ?></div>
         <div><?= e($review->body) ?></div>
+        @auth
+          @if(auth()->user()->is_admin)
+            <form method="POST" action="<?= e(route('admin.reviews.destroy', $review)) ?>" class="mt-2" onsubmit="return confirm('Удалить отзыв?')">
+              @csrf
+              @method('DELETE')
+              <button class="btn btn-sm btn-outline-danger">Удалить отзыв</button>
+            </form>
+          @endif
+        @endauth
       </div>
     @endforeach
   @endif

@@ -47,6 +47,7 @@
     <p class="text-muted mb-0">Ничего не найдено. Попробуй изменить фильтры.</p>
   </div>
 @else
+  @php $ownedIds = auth()->check() ? auth()->user()->purchasedComicIds() : collect(); @endphp
   <div class="row g-4">
     @foreach($comics as $comic)
       <div class="col-sm-6 col-lg-4">
@@ -73,10 +74,14 @@
             <div class="gomic-price mt-auto"><?= e(number_format($comic->price, 0, '.', ' ')) ?> ₽</div>
           </div>
           <div class="card-footer bg-transparent border-0 pt-0">
-            <form method="POST" action="<?= e(route('cart.add', $comic->id)) ?>">
-              @csrf
-              <button class="btn btn-outline-primary w-100">В корзину</button>
-            </form>
+            @if($ownedIds->contains($comic->id))
+              <a class="btn btn-success w-100" href="<?= e(route('profile.index')) ?>">✓ Куплено</a>
+            @else
+              <form method="POST" action="<?= e(route('cart.add', $comic->id)) ?>">
+                @csrf
+                <button class="btn btn-outline-primary w-100">В корзину</button>
+              </form>
+            @endif
           </div>
         </div>
       </div>
