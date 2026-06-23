@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Comic;
 use App\Models\Genre;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -120,9 +121,19 @@ class AdminComicController
 
     public function destroy(Comic $comic)
     {
+        // Комикс уже в заказах — удалять нельзя, просто деактивируем
+        if (OrderItem::where('comic_id', $comic->id)->exists()) {
+            $comic->update(['is_active' => false]);
+            return back()->with('error', 'Этот комикс уже есть в заказах, поэтому удалить его нельзя. Он скрыт из каталога (деактивирован).');
+        }
+
+        $comic->genres()->detach();
+        $comic->reviews()->delete();
+
         if ($comic->cover_image_path) Storage::disk('public')->delete($comic->cover_image_path);
         if ($comic->pdf_path) Storage::disk('private')->delete($comic->pdf_path);
         $comic->delete();
+
         return back()->with('success', 'Комикс удалён');
     }
 }
