@@ -5,7 +5,7 @@
 @section('content')
 <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
   <h1 class="gomic-title mb-0">Мой профиль</h1>
-  <a class="btn btn-outline-primary" href="<?= e(route('cart.index')) ?>">🛒 Корзина</a>
+  <a class="btn btn-outline-primary" href="<?= e(route('cart.index')) ?>">Корзина</a>
 </div>
 
 <div class="card gomic-card border-0 shadow-sm p-3 mb-4 col-lg-7">
@@ -13,7 +13,7 @@
   <div class="d-flex justify-content-between"><span class="text-muted">E-mail</span><span><?= e($user->email) ?></span></div>
 </div>
 
-<h2 class="h5 mb-3">📥 Мои покупки</h2>
+<h2 class="h5 mb-3">Мои покупки</h2>
 @if($purchasedComics->isEmpty())
   <div class="gomic-empty text-center py-5 mb-4">
     <div class="display-6 mb-2">📚</div>
@@ -26,15 +26,11 @@
       <div class="col-6 col-sm-4 col-lg-3 col-xl-2">
         <div class="card gomic-card h-100 border-0 shadow-sm">
           <a href="<?= e(route('comics.show', $comic->slug)) ?>" class="gomic-cover">
-            @if($comic->cover_image_path)
-              <img src="<?= e(asset('storage/'.$comic->cover_image_path)) ?>" alt="<?= e($comic->title) ?>">
-            @else
-              <div class="gomic-cover__placeholder">📖</div>
-            @endif
+            <img src="<?= e($comic->cover_url) ?>" alt="<?= e($comic->title) ?>">
           </a>
           <div class="card-body p-2 d-flex flex-column">
             <h3 class="small mb-2"><a class="gomic-link" href="<?= e(route('comics.show', $comic->slug)) ?>"><?= e($comic->title) ?></a></h3>
-            <a class="btn btn-primary btn-sm w-100 mt-auto" href="<?= e(route('comics.download', $comic->id)) ?>">📥 PDF</a>
+            <a class="btn btn-primary btn-sm w-100 mt-auto" href="<?= e(route('comics.download', $comic->id)) ?>">Скачать PDF</a>
           </div>
         </div>
       </div>
@@ -42,7 +38,7 @@
   </div>
 @endif
 
-<h2 class="h5 mb-3">🧾 История заказов</h2>
+<h2 class="h5 mb-3">История заказов</h2>
 @if($orders->isEmpty())
   <div class="gomic-empty text-center py-4">
     <p class="text-muted mb-0">Заказов пока нет.</p>
