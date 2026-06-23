@@ -13,7 +13,7 @@
     <div class="row g-2">
       <div class="col-md-4 mb-3"><label class="form-label">Цена</label><input class="form-control" type="number" min="0" step="0.01" inputmode="decimal" onkeydown="return !['e','E','+','-'].includes(event.key)" name="price" value="<?= e(old('price')) ?>" required></div>
       <div class="col-md-4 mb-3"><label class="form-label">Страниц</label><input class="form-control" type="number" min="1" step="1" inputmode="numeric" onkeydown="return !['e','E','+','-','.',','].includes(event.key)" name="pages_count" value="<?= e(old('pages_count')) ?>"></div>
-      <div class="col-md-4 mb-3"><label class="form-label">Год</label><input class="form-control" type="number" min="1900" max="2100" step="1" inputmode="numeric" onkeydown="return !['e','E','+','-','.',','].includes(event.key)" name="published_year" value="<?= e(old('published_year')) ?>"></div>
+      <div class="col-md-4 mb-3"><label class="form-label">Год</label><input class="form-control" type="number" min="1900" max="<?= e(date('Y')) ?>" step="1" inputmode="numeric" onkeydown="return !['e','E','+','-','.',','].includes(event.key)" name="published_year" value="<?= e(old('published_year')) ?>"></div>
     </div>
     <div class="mb-3">
       <label class="form-label">Жанры</label>

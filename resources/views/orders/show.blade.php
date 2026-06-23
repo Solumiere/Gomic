@@ -29,14 +29,14 @@
 </ul>
 
 <div class="d-flex flex-wrap gap-2">
-  @if($order->status === \App\Models\Order::STATUS_CREATED)
+  @if($order->status === \\App\\Models\\Order::STATUS_CREATED)
     <form method="POST" action="<?= e(route('orders.pay', $order)) ?>">
       @csrf
       <button class="btn btn-success btn-lg">Оплатить</button>
     </form>
-  @elseif(in_array($order->status, [\App\Models\Order::STATUS_PAID, \App\Models\Order::STATUS_COMPLETED]))
+  @elseif(in_array($order->status, [\\App\\Models\\Order::STATUS_PAID, \\App\\Models\\Order::STATUS_COMPLETED]))
     <a class="btn btn-primary btn-lg" href="<?= e(route('profile.index')) ?>">Перейти в профиль и скачать</a>
+    <a class="btn btn-outline-secondary btn-lg" href="<?= e(route('orders.receipt', $order)) ?>" target="_blank">Чек / квитанция</a>
   @endif
-  <a class="btn btn-outline-secondary btn-lg" href="<?= e(route('orders.receipt', $order)) ?>" target="_blank">Чек / квитанция</a>
 </div>
 @endsection

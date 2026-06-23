@@ -31,13 +31,13 @@ class OrderController
 
     public function store(Request $request)
     {
-        // Оставляем только цифры в номере и CVV
+        // keep only digits in card number and CVV
         $request->merge([
             'card_number' => preg_replace('/\\D/', '', (string) $request->input('card_number')),
             'card_cvv' => preg_replace('/\\D/', '', (string) $request->input('card_cvv')),
         ]);
 
-        $request->validate([
+        $validated = $request->validate([
             'card_number' => ['required', 'regex:/^\\d{16}$/'],
             'card_exp' => ['required', 'regex:/^(0[1-9]|1[0-2])\\/\\d{2}$/'],
             'card_cvv' => ['required', 'regex:/^\\d{3,4}$/'],
@@ -50,6 +50,15 @@ class OrderController
             'card_cvv.regex' => 'CVV должен содержать 3 цифры',
         ]);
 
+        // card must not be expired (MM/YY)
+        [$expMonth, $expYear] = array_map('intval', explode('/', $validated['card_exp']));
+        $expYearFull = 2000 + $expYear;
+        $nowYear = (int) now()->format('Y');
+        $nowMonth = (int) now()->format('n');
+        if ($expYearFull < $nowYear || ($expYearFull === $nowYear && $expMonth < $nowMonth)) {
+            return back()->withErrors(['card_exp' => 'Срок действия карты истёк'])->withInput();
+        }
+
         $cart = $request->session()->get('cart', []);
         $ids = array_keys($cart);
         $comics = $ids ? Comic::whereIn('id', $ids)->get() : collect();
@@ -60,7 +69,6 @@ class OrderController
 
         $user = $request->user();
 
-        // Нельзя купить то, что уже куплено
         $owned = $user->purchasedComicIds();
         $comics = $comics->reject(fn ($c) => $owned->contains($c->id))->values();
 
@@ -88,7 +96,6 @@ class OrderController
                 ]);
             }
 
-            // очистить корзину
             $request->session()->forget('cart');
 
             return redirect()->route('orders.show', $order)->with('success', 'Заказ создан. Проверьте данные и нажмите «Оплатить».');

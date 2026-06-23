@@ -29,12 +29,14 @@ class AdminComicController
             'description' => ['nullable','string'],
             'price' => ['required','numeric','min:0'],
             'pages_count' => ['nullable','integer','min:1'],
-            'published_year' => ['nullable','integer','min:1900','max:2100'],
+            'published_year' => ['nullable','integer','min:1900','max:'.date('Y')],
             'is_active' => ['nullable','boolean'],
             'cover' => ['nullable','image','max:4096'],
             'pdf' => ['required','file','mimes:pdf','max:51200'],
             'genres' => ['nullable','array'],
             'genres.*' => ['integer','exists:genres,id'],
+        ], [
+            'published_year.max' => 'Год выпуска не может быть в будущем',
         ]);
 
         $slug = Str::slug($data['title']);
@@ -80,12 +82,14 @@ class AdminComicController
             'description' => ['nullable','string'],
             'price' => ['required','numeric','min:0'],
             'pages_count' => ['nullable','integer','min:1'],
-            'published_year' => ['nullable','integer','min:1900','max:2100'],
+            'published_year' => ['nullable','integer','min:1900','max:'.date('Y')],
             'is_active' => ['nullable','boolean'],
             'cover' => ['nullable','image','max:4096'],
             'pdf' => ['nullable','file','mimes:pdf','max:51200'],
             'genres' => ['nullable','array'],
             'genres.*' => ['integer','exists:genres,id'],
+        ], [
+            'published_year.max' => 'Год выпуска не может быть в будущем',
         ]);
 
         if ($request->file('cover')) {
