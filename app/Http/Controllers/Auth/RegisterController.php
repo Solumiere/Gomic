@@ -16,6 +16,12 @@ class RegisterController
 
     public function store(Request $request)
     {
+        // Пробелы в пароле не учитываем
+        $request->merge([
+            'password' => str_replace(' ', '', (string) $request->input('password')),
+            'password_confirmation' => str_replace(' ', '', (string) $request->input('password_confirmation')),
+        ]);
+
         $data = $request->validate([
             'name' => ['required','string','min:2','max:120','regex:/^[\\p{L}\\s\\-]+$/u'],
             'email' => ['required','email','max:190','regex:/^[A-Za-z0-9._%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,}$/','unique:users,email'],

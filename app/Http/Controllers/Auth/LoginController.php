@@ -14,6 +14,11 @@ class LoginController
 
     public function store(Request $request)
     {
+        // Пробелы в пароле не учитываем
+        $request->merge([
+            'password' => str_replace(' ', '', (string) $request->input('password')),
+        ]);
+
         $credentials = $request->validate([
             'email' => ['required','email'],
             'password' => ['required','string'],
