@@ -12,6 +12,7 @@
         <div class="mb-3">
           <label class="form-label">Имя</label>
           <input class="form-control" name="name" value="<?= e(old('name')) ?>" required autofocus>
+          <div class="form-text">Только буквы, пробелы и дефис.</div>
         </div>
         <div class="mb-3">
           <label class="form-label">Email</label>
@@ -19,11 +20,17 @@
         </div>
         <div class="mb-3">
           <label class="form-label">Пароль</label>
-          <input class="form-control" type="password" name="password" required>
+          <div class="input-group">
+            <input class="form-control" type="password" name="password" id="reg-password" required>
+            <button class="btn btn-outline-secondary" type="button" onclick="togglePw('reg-password', this)" aria-label="Показать пароль">👁</button>
+          </div>
         </div>
         <div class="mb-3">
           <label class="form-label">Повтори пароль</label>
-          <input class="form-control" type="password" name="password_confirmation" required>
+          <div class="input-group">
+            <input class="form-control" type="password" name="password_confirmation" id="reg-password2" required>
+            <button class="btn btn-outline-secondary" type="button" onclick="togglePw('reg-password2', this)" aria-label="Показать пароль">👁</button>
+          </div>
         </div>
         <button class="btn btn-success w-100">Создать аккаунт</button>
       </form>
@@ -31,4 +38,13 @@
     </div>
   </div>
 </div>
+
+<script>
+function togglePw(id, btn) {
+  var input = document.getElementById(id);
+  if (!input) return;
+  if (input.type === 'password') { input.type = 'text'; btn.textContent = '🙈'; }
+  else { input.type = 'password'; btn.textContent = '👁'; }
+}
+</script>
 @endsection

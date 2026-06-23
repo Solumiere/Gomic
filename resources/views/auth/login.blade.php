@@ -15,7 +15,10 @@
         </div>
         <div class="mb-3">
           <label class="form-label">Пароль</label>
-          <input class="form-control" type="password" name="password" required>
+          <div class="input-group">
+            <input class="form-control" type="password" name="password" id="login-password" required>
+            <button class="btn btn-outline-secondary" type="button" onclick="togglePw('login-password', this)" aria-label="Показать пароль">👁</button>
+          </div>
         </div>
         <div class="form-check mb-3">
           <input class="form-check-input" type="checkbox" name="remember" id="remember">
@@ -27,4 +30,13 @@
     </div>
   </div>
 </div>
+
+<script>
+function togglePw(id, btn) {
+  var input = document.getElementById(id);
+  if (!input) return;
+  if (input.type === 'password') { input.type = 'text'; btn.textContent = '🙈'; }
+  else { input.type = 'password'; btn.textContent = '👁'; }
+}
+</script>
 @endsection
