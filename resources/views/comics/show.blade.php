@@ -5,14 +5,14 @@
 @section('content')
 <div class="card gomic-card border-0 shadow-sm p-4 mb-4">
   <div class="row g-4">
-    <div class="col-md-4">
+    <div class="col-md-5">
       @if($comic->cover_image_path)
         <img class="img-fluid rounded-3 w-100" src="<?= e(asset('storage/'.$comic->cover_image_path)) ?>" alt="<?= e($comic->title) ?>">
       @else
-        <div class="gomic-cover__placeholder rounded-3" style="height:320px">📖</div>
+        <div class="gomic-cover__placeholder rounded-3" style="height:460px">📖</div>
       @endif
     </div>
-    <div class="col-md-8">
+    <div class="col-md-7">
       <h1 class="gomic-title mb-2"><?= e($comic->title) ?></h1>
       @if($comic->author)
         <div class="text-muted mb-2">Автор: <?= e($comic->author) ?></div>

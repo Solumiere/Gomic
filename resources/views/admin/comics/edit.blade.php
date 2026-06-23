@@ -12,9 +12,9 @@
     <div class="mb-3"><label class="form-label">Название</label><input class="form-control" name="title" value="<?= e(old('title', $comic->title)) ?>" required></div>
     <div class="mb-3"><label class="form-label">Описание</label><textarea class="form-control" name="description" rows="3"><?= e(old('description', $comic->description)) ?></textarea></div>
     <div class="row g-2">
-      <div class="col-md-4 mb-3"><label class="form-label">Цена</label><input class="form-control" name="price" value="<?= e(old('price', $comic->price)) ?>" required></div>
-      <div class="col-md-4 mb-3"><label class="form-label">Страниц</label><input class="form-control" name="pages_count" value="<?= e(old('pages_count', $comic->pages_count)) ?>"></div>
-      <div class="col-md-4 mb-3"><label class="form-label">Год</label><input class="form-control" name="published_year" value="<?= e(old('published_year', $comic->published_year)) ?>"></div>
+      <div class="col-md-4 mb-3"><label class="form-label">Цена</label><input class="form-control" type="number" min="0" step="0.01" inputmode="decimal" onkeydown="return !['e','E','+','-'].includes(event.key)" name="price" value="<?= e(old('price', $comic->price)) ?>" required></div>
+      <div class="col-md-4 mb-3"><label class="form-label">Страниц</label><input class="form-control" type="number" min="1" step="1" inputmode="numeric" onkeydown="return !['e','E','+','-','.',','].includes(event.key)" name="pages_count" value="<?= e(old('pages_count', $comic->pages_count)) ?>"></div>
+      <div class="col-md-4 mb-3"><label class="form-label">Год</label><input class="form-control" type="number" min="1900" max="2100" step="1" inputmode="numeric" onkeydown="return !['e','E','+','-','.',','].includes(event.key)" name="published_year" value="<?= e(old('published_year', $comic->published_year)) ?>"></div>
     </div>
     <div class="mb-3">
       <label class="form-label">Жанры</label>
